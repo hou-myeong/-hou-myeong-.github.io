@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주소 변환기</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>원본 주소 입력하기</h1>
+    <input type="text" id="originalAddress" placeholder="원본 주소를 입력하세요" style="width: 100%;">
+    <button onclick="generateUrls()">주소 생성</button>
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>구분</th>
+                <th>변경된 주소</th>
+                <th>CID</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        function generateUrls() {
+            const originalAddress = document.getElementById('originalAddress').value;
+            const cids = [1833981, 1917613, 1829686, 1922868, 1922875, 1829632, 1829721,
+                           1916781, 1916838, 1761525, 1651783, 1811615, 1811600, 1839139,
+                           1839114, 1769533];
+            const koreanTags = ['구글 지도', '구글 검색', '네이버', 'KB', '우리', 'BC',
+                                '신한(카드)', '신한', '토스', '하나', '카카오페이',
+                                '마스터카드', '유니온페이', '비자', '?출처불명?', '?출처불명?'];
+
+            const tbody = document.getElementById('resultTable').getElementsByTagName('tbody')[0];
+            tbody.innerHTML = ''; // Clear previous results
+
+            cids.forEach((cid, index) => {
+                const newAddress = originalAddress.replace(/cid=\d+/g, `cid=${cid}`);
+                const row = tbody.insertRow();
+                row.insertCell(0).innerText = koreanTags[index];
+                const linkCell = row.insertCell(1);
+                linkCell.innerHTML = `<a href="${newAddress}" target="_blank">${newAddress}</a>`;
+                row.insertCell(2).innerText = cid;
+            });
+        }
+    </script>
+</body>
+</html>
